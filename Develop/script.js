@@ -29,16 +29,19 @@ $(document).ready(function(){
             var elRow = $("<div>").addClass("time-block row");
             var elHour = $("<div>" + hourBlocks[i] + "</div>").addClass("hour col-md-1");
             var elText = $("<textarea>").addClass("col-md-10");
-            var elSave = $("<div>").addClass("saveBtn col-md-1");
+            var elSave = $("<button>").addClass("saveBtn col-md-1");
+            var elSaveIcon = $("<i>").addClass("far fa-save")
 
             // Variable to parse the hourBlock array strings into moment.js format so they can be used for calculations
             var parsedTime = moment(hourBlocks[i], "h a")
                 // console.log(parsedTime);
 
+            // Append elements 
             container.append(elRow);
             elRow.append(elHour);
             elRow.append(elText);
             elRow.append(elSave);
+            elSave.append(elSaveIcon);
 
             // Logic to Determine Formatting Based on Current Time
             if(parsedTime >currentTime){
@@ -50,13 +53,14 @@ $(document).ready(function(){
                 $(elText).attr("class","future col-md-10");
             } 
         
-        getTasks();
+
         }   
+        getTasks();
 
         // Store Tasks Entered by User to Local Storage
         function storeTask(){
             localStorage.setItem("tasks", JSON.stringify({
-                // hour: $(elHour).text(),
+                hour: $(elHour).text(),         //my hour selector logic is incorrect. this is causing issues with getTasks();
                 task: $("textarea").val()
             }));
         }
@@ -68,7 +72,7 @@ $(document).ready(function(){
                
                 if ($(elHour).text() === tasks.hour) {
                     // $(elHour).text(tasks.hour);
-                    $("textarea").text(tasks.task);
+                    $("textarea").text(tasks.task);         // the task is being assigned to every slot bc my storeTask() selector is wrong
                 }
             };
         }
