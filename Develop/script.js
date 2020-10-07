@@ -1,5 +1,3 @@
-
-
 $(document).ready(function(){
     console.log("test");
 
@@ -8,18 +6,16 @@ $(document).ready(function(){
     var hourBlocks = ["9 AM","10 AM","11 AM","12 PM","1 PM","2 PM","3 PM","4 PM","5 PM"];
     var container = $(".container");
     var currentTime = moment().format('HH');
-        console.log(currentTime);
+        console.log("CurrentTime:" + currentTime);
    
-    // Local Storage Variables
-
-
 
     // FUNCTIONS
 
     // Display Today's Date using Moment.js
     function getDate(){
         var currentDay = moment().format('MMMM Do YYYY, h:mm:ss a');
-        // console.log(currentDay);
+
+        console.log("currentDay:" + currentDay);
         $("#currentDay").text(currentDay);
     }
 
@@ -33,8 +29,8 @@ $(document).ready(function(){
             var elSaveIcon = $("<i>").addClass("far fa-save")
 
             // Variable to parse the hourBlock array strings into moment.js format so they can be used for calculations
-            var parsedTime = moment(hourBlocks[i], "h a")
-                // console.log(parsedTime);
+            var parsedTime = moment(hourBlocks[i], "h m a")  
+                console.log(parsedTime);
 
             // Append elements 
             container.append(elRow);
@@ -44,7 +40,7 @@ $(document).ready(function(){
             elSave.append(elSaveIcon);
 
             // Logic to Determine Formatting Based on Current Time
-            if(parsedTime >currentTime){
+            if(parsedTime < currentTime){   // FEEDBACK REQUEST: parsing is giving me a date/time stamp from moment but the if statement logic doesn't seem to be calculating correctly. Not sure why this is happening.
                 $(elText).attr("class","past col-md-10");
             }else if(parsedTime === currentTime){
                 $(elText).attr("class", "current col-md-10");
@@ -60,7 +56,7 @@ $(document).ready(function(){
         // Store Tasks Entered by User to Local Storage
         function storeTask(){
             localStorage.setItem("tasks", JSON.stringify({
-                hour: $(elHour).text(),         //my hour selector logic is incorrect. this is causing issues with getTasks();
+                hour: $(elHour).text(),         // FEEDBACK REQUEST: my hour selector logic is incorrect. this is causing issues with getTasks(). I couldn't figure this out.
                 task: $("textarea").val()
             }));
         }
@@ -72,7 +68,7 @@ $(document).ready(function(){
                
                 if ($(elHour).text() === tasks.hour) {
                     // $(elHour).text(tasks.hour);
-                    $("textarea").text(tasks.task);         // the task is being assigned to every slot bc my storeTask() selector is wrong
+                    $("textarea").text(tasks.task);         // FEEDBACK REQUEST: the task is being assigned to every slot bc my storeTask() selector is wrong. I couldn't figure this out.
                 }
             };
         }
@@ -88,7 +84,9 @@ $(document).ready(function(){
 
     }
 
+
     getDate();
+
     displayCalendar();
 
 })
