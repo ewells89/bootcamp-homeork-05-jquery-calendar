@@ -9,6 +9,9 @@ $(document).ready(function(){
     var container = $(".container");
     var currentTime = moment().format('HH');
         console.log(currentTime);
+   
+    // Local Storage Variables
+
 
     // Display Today's Date using Moment.js
     function getDate(){
@@ -43,7 +46,28 @@ $(document).ready(function(){
             else{
                 $(elText).attr("class","future col-md-10");
             } 
+
         }   
+
+    // Store Tasks Entered by User to Local Storage
+    function storeTask(){
+        localStorage.setItem("tasks", JSON.stringify({
+            // hour: $("#hour").val(),
+            task: $("textarea").val()
+        }));
+
+    }
+
+        // Event Listener for Clicks
+        $(".saveBtn").click(function(){
+            console.log("click!");
+            
+            storeTask();
+            // displayCalendar();
+        })
+
+
+
     }
 
     getDate();
