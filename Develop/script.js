@@ -13,6 +13,9 @@ $(document).ready(function(){
     // Local Storage Variables
 
 
+
+    // FUNCTIONS
+
     // Display Today's Date using Moment.js
     function getDate(){
         var currentDay = moment().format('MMMM Do YYYY, h:mm:ss a');
@@ -46,24 +49,35 @@ $(document).ready(function(){
             else{
                 $(elText).attr("class","future col-md-10");
             } 
-
+        
+        getTasks();
         }   
 
-    // Store Tasks Entered by User to Local Storage
-    function storeTask(){
-        localStorage.setItem("tasks", JSON.stringify({
-            // hour: $("#hour").val(),
-            task: $("textarea").val()
-        }));
+        // Store Tasks Entered by User to Local Storage
+        function storeTask(){
+            localStorage.setItem("tasks", JSON.stringify({
+                // hour: $(elHour).text(),
+                task: $("textarea").val()
+            }));
+        }
 
-    }
+        // Retrieve Tasks Entered by User from Local Storage
+        function getTasks(){
+            if (localStorage.getItem("tasks") !== null) {
+                var tasks = JSON.parse(localStorage.getItem("tasks"));
+               
+                if ($(elHour).text() === tasks.hour) {
+                    // $(elHour).text(tasks.hour);
+                    $("textarea").text(tasks.task);
+                }
+            };
+        }
 
         // Event Listener for Clicks
         $(".saveBtn").click(function(){
             console.log("click!");
             
             storeTask();
-            // displayCalendar();
         })
 
 
